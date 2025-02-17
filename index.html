@@ -56,13 +56,24 @@
     //end of init  
     });
 
-    
+
 
   function promptListener() {
     console.log(`permission prompt dispslayed event: ${event}`);
   }
 
   if(OneSignal) OneSignal.Notifications.addEventListener("permissionPromptDisplay", promptListener);
+  });
+
+  function pushSubscriptionChangeListener(event) {
+    if (event.current.optedIn) {
+      console.log(`Permission:`, event.current.optedIn);
+      //this is a good place to call OneSignal.login and pass in your user ID
+    }
+  }
+
+  OneSignalDeferred.push(function(OneSignal) {
+    OneSignal.User.PushSubscription.addEventListener("change", pushSubscriptionChangeListener);
   });
 
   const addTag = (()=>{
