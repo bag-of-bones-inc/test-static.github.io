@@ -62,8 +62,7 @@
     console.log(`permission prompt dispslayed event: ${event}`);
   }
 
-  if(OneSignal) OneSignal.Notifications.addEventListener("permissionPromptDisplay", promptListener);
-  });
+  
 
   function pushSubscriptionChangeListener(event) {
     if (event.current.optedIn) {
@@ -72,8 +71,16 @@
     }
   }
 
-  OneSignalDeferred.push(function(OneSignal) {
+  function clickEventListener(event) {
+    console.log(`click event: ${event}`);
+  }
+
+  if(OneSignal) { 
+    OneSignal.Notifications.addEventListener("permissionPromptDisplay", promptListener);
+    OneSignal.Notifications.addEventListener("click", clickEventListener);
     OneSignal.User.PushSubscription.addEventListener("change", pushSubscriptionChangeListener);
+
+  }  
   });
 
   const addTag = (()=>{
